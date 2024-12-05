@@ -5,14 +5,6 @@ from models.vending_machine import VendingMachine
 from models.coin import Coin
 from utils.initial_values import (initialSlots, initialCoins)
 
-createDatabase()
-
-vm = VendingMachine()
-loadData(vm)
-
-stockController = StockController(vm)
-transactionController = TransactionController(vm, stockController)
-
 def menu():
     while True:
         print("\n--- Vending Machine ---")
@@ -87,5 +79,16 @@ def importInitialValues():
     vm.slots = initialSlots
     vm.coins = initialCoins
     saveData(vm)
+
+createDatabase()
+
+vm = VendingMachine()
+
+loadData(vm)
+if len(vm.coins) == 0 or len(vm.slots) == 0:
+    importInitialValues()
+
+stockController = StockController(vm)
+transactionController = TransactionController(vm, stockController)
 
 menu()
